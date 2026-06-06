@@ -1,0 +1,4 @@
+# Stdlib-only for the baseline + harness.
+# Add your LLM provider SDK to wire real models, e.g.:
+# anthropic>=0.40
+# openai>=1.40

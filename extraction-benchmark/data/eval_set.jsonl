@@ -1,0 +1,3 @@
+{"id": "001", "input": "Invoice #INV-2024-0091 dated 2024-03-14. Vendor: Acme Corp. Total due: $1,250.00", "gold": {"invoice_number": "INV-2024-0091", "date": "2024-03-14", "total_amount": "1250.00", "vendor": "Acme Corp"}}
+{"id": "002", "input": "Inv 88231 — billed by Globex Ltd on 2024-07-02. Amount: $97.50.", "gold": {"invoice_number": "88231", "date": "2024-07-02", "total_amount": "97.50", "vendor": "Globex Ltd"}}
+{"id": "003", "input": "Receipt from Initech. No invoice number printed. 2023-11-30. Paid $4,000.00.", "gold": {"invoice_number": null, "date": "2023-11-30", "total_amount": "4000.00", "vendor": "Initech"}}

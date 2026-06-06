@@ -1,0 +1,3 @@
+{"task_id": "ex-001", "prompt": "PLACEHOLDER: Replace with a real task from your domain. e.g. 'What is the total of line items 3 and 7 in invoice X?'", "expected": "PLACEHOLDER expected answer"}
+{"task_id": "ex-002", "prompt": "PLACEHOLDER: A task that REQUIRES a tool call, so 'hallucinated_result' is detectable when skipped.", "expected": "PLACEHOLDER expected answer"}
+{"task_id": "ex-003", "prompt": "PLACEHOLDER: A deliberately hard / ambiguous task to surface edge-case failures.", "expected": "PLACEHOLDER expected answer"}
