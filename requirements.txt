@@ -1,4 +1,0 @@
-# Add your LLM provider SDK, e.g.:
-# anthropic>=0.40
-# openai>=1.40
-# No hard deps for the harness itself beyond the stdlib.
