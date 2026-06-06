@@ -1,35 +1,73 @@
-# AI Portfolio
+# Eval-First Agent
 
-Five projects across LLM agents, deep learning, NLP, classic ML, and time series.
-The throughline is measurement over demos: every project ships with an evaluation
-story, documented limitations, and honest notes on what I'd do next. A few
-rigorous repos beat many shallow ones.
+An agent is easy to demo and hard to trust. This project inverts the usual emphasis: the **evaluation harness is the product**, and the agent is the thing being measured. The deliverable a reviewer should care about is `src/evals/` and the `results/` it produces.
 
-| Project | What it proves | Stack |
-|---|---|---|
-| [`eval-first-agent/`](./eval-first-agent) | I build agents and, more importantly, measure when they fail | Python, tool-calling, custom eval harness |
-| [`transformer-from-scratch/`](./transformer-from-scratch) | I understand model internals, not just the API | PyTorch (no nn.Transformer) |
-| [`text-classification/`](./text-classification) | I ship clean ML with real error analysis | scikit-learn |
-| [`extraction-benchmark/`](./extraction-benchmark) | I can design a fair benchmark and report it credibly | Python, multi-model scoring |
-| [`stock-forecasting/`](./stock-forecasting) | I do time-series ML without lookahead/leakage | PyTorch LSTM, yfinance |
+## The idea
 
-## What's verified
+Most agent repos show a happy-path screen recording. This one ships:
 
-- **transformer-from-scratch** — trained end to end (loss 3.38 -> 1.93).
-- **text-classification** — full pipeline + confusion matrix + error analysis run.
-- **extraction-benchmark** — runner + scoring execute; regex baseline at 0.80 F1.
-- **stock-forecasting** — pipeline + LSTM verified on synthetic data (live runs use yfinance).
-- **eval-first-agent** — harness, metrics, and failure taxonomy wired; plug in a provider to run live.
+- A held-out eval set of real tasks (`evals/cases.jsonl`)
+- A harness that runs the agent over every case and scores it (`src/evals/harness.py`)
+- `pass@k` and cost/latency metrics (`src/evals/metrics.py`)
+- A **failure taxonomy** — failures are categorized, not just counted (`src/evals/failure_taxonomy.py`)
 
-## Reading order
+The claim being demonstrated is narrow and honest: *I know how agents fail in this domain, and I can quantify it.*
 
-Start with the eval harness in `eval-first-agent` — it's the flagship. The others
-are scoped supporting pieces: depth (transformer), applied ML (text-classification),
-methodology (extraction-benchmark), and time-series discipline (stock-forecasting).
+## Pick a domain
 
-## Conventions
+The scaffold is domain-agnostic. Before publishing, swap in a domain you actually know — e.g. an agent that answers questions over a specific codebase, navigates a documented API, or operates on a structured dataset. Credibility comes from the eval set reflecting real tasks, so write the cases yourself rather than generating them.
 
-- Reproducible: pinned deps, deterministic seeds, single-command entry points.
-- Results are versioned artifacts, not screenshots.
-- Each README ends with "Limitations" and "What I'd do next".
-- No secrets in any repo — API keys are read from the environment at runtime.
+## Layout
+
+```
+eval-first-agent/
+├── src/
+│   ├── agent/
+│   │   ├── agent.py          # the agent loop (tool-calling)
+│   │   └── tools.py          # tool definitions
+│   └── evals/
+│       ├── harness.py        # runs agent over all cases, collects traces
+│       ├── metrics.py        # pass@k, cost, latency
+│       └── failure_taxonomy.py  # classifies failed traces
+├── evals/
+│   └── cases.jsonl           # the eval set (start with ~50-100 real cases)
+└── results/                  # versioned run outputs
+```
+
+## Running
+
+```bash
+pip install -r requirements.txt
+export ANTHROPIC_API_KEY=...        # or your provider of choice
+python -m src.evals.harness --cases evals/cases.jsonl --k 3 --out results/
+```
+
+## Metrics this reports
+
+- **pass@k** — fraction of cases solved within k attempts. Reported at k=1 and k=3 so the gap between "can do" and "reliably does" is visible.
+- **Cost per solved task** — total spend / passes. The number that actually matters in production.
+- **p50 / p95 latency** — tail latency is where agents disappoint.
+- **Failure breakdown** — % of failures by category (see taxonomy).
+
+## Failure taxonomy
+
+Failures are bucketed so the writeup can say *how* it fails, not just *that* it fails. Starter categories in `failure_taxonomy.py`:
+
+- `wrong_tool` — selected an inappropriate tool
+- `tool_error` — tool called with malformed args
+- `hallucinated_result` — fabricated an answer instead of using tools
+- `gave_up` — terminated without an answer
+- `loop` — repeated the same failing action
+- `correct_path_wrong_answer` — right approach, wrong final output
+
+## Limitations
+
+- The scaffold ships with placeholder cases; the eval set must be replaced with real domain tasks to be meaningful.
+- Scoring uses exact/semantic match on final answers; some domains need rubric-based or LLM-as-judge scoring, which introduces its own validation burden.
+- Single-provider by default. Cross-provider comparison is left as an extension.
+
+## What I'd do next
+
+- Add LLM-as-judge scoring with a calibration set to validate the judge against human labels.
+- Track per-category failure rates across model versions to detect regressions.
+- Add a cost/quality Pareto plot across model tiers.
