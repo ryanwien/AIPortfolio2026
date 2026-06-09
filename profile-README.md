@@ -1,6 +1,6 @@
 # Hi — I build and *measure* AI systems
 
-I'm an AI engineer focused on the unglamorous half of the field: knowing when a
+I am focused on the unglamorous half of the field: knowing when a
 model is actually working. Demos are easy; trustworthy systems are not. My work
 leans on evals, reproducibility, and honest write-ups about tradeoffs and failures.
 
