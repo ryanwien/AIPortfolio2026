@@ -160,7 +160,7 @@ code{font-family:var(--mono);font-size:.88em;color:var(--amber-hi)}
     linear-gradient(180deg,rgba(4,7,6,.72) 0%,rgba(4,7,6,.1) 26%,rgba(4,7,6,.55) 62%,rgba(4,7,6,.96) 100%),
     radial-gradient(75% 55% at 22% 78%,rgba(4,7,6,.85),transparent 70%);
 }
-.hero__body{padding-bottom:clamp(120px,16vh,180px);position:relative}
+.hero__body{padding:clamp(56px,9vh,110px) var(--pad) clamp(44px,7vh,86px);position:relative}
 .hero__title{
   font-family:var(--display);
   font-size:clamp(42px,8.4vw,104px);
@@ -174,9 +174,10 @@ code{font-family:var(--mono);font-size:.88em;color:var(--amber-hi)}
 }
 .hero__cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
 
+/* sits in normal flow as the last flex child of .hero, so it can never
+   overlap the hero copy however far the cells wrap */
 .readout{
-  position:absolute;left:0;right:0;bottom:0;
-  display:grid;grid-template-columns:repeat(5,1fr);
+  display:grid;grid-template-columns:repeat(5,1fr);width:100%;
   border-top:1px solid var(--line);background:rgba(5,9,7,.86);backdrop-filter:blur(6px);
 }
 .readout__cell{padding:14px 18px;border-right:1px solid var(--line);font-family:var(--mono);min-width:0}
