@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SP-02 transformer-from-scratch — Wien Field Station</title>
+<meta name="description" content="transformer-from-scratch: what it proves, what was measured, and what it cannot do.">
+<meta property="og:title" content="SP-02 transformer-from-scratch — Wien Field Station">
+<meta property="og:description" content="What it proves, what was measured, and what it cannot do.">
+<meta property="og:image" content="../../assets/img/poster.webp">
+<meta name="theme-color" content="#060a08">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/style.css">
+<link rel="stylesheet" href="../../assets/css/specimen.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='13' fill='%23f0a92c'/><circle cx='16' cy='16' r='5' fill='%23231402'/></svg>">
+</head>
+<body>
+<a class="skip" href="#dossier">Skip to the dossier</a>
+
+<header class="topbar">
+  <div class="hazard" aria-hidden="true"></div>
+  <nav class="topbar__inner" aria-label="Primary">
+    <a class="brand" href="../../index.html">
+      <span class="brand__mark" aria-hidden="true"></span>
+      <span class="brand__name"><b>WIEN</b> FIELD STATION</span>
+    </a>
+    <ul class="topbar__links">
+      <li><a href="../../index.html#paddocks">Paddocks</a></li>
+      <li><a href="../../index.html#log">Log</a></li>
+      <li><a href="../../index.html#protocols">Protocols</a></li>
+      <li><a href="../../index.html#terminal">Terminal</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="spec">
+
+  <div class="spec-hero">
+    <div class="spec-hero__plate" style="background-image:url('../../assets/img/amber.webp')" aria-hidden="true"></div>
+    <div class="wrap">
+      <a class="crumb" href="../../index.html#paddocks"><span aria-hidden="true">&larr;</span> All paddocks</a>
+      <div class="spec-head">
+        <span class="spec-id">SP-02</span>
+        <span class="chip chip--ok"><span class="led led--on" aria-hidden="true"></span>Trained end to end</span>
+      </div>
+      <h1 class="spec-name">transformer-from-scratch</h1>
+      <p class="spec-class">Containment class &mdash; <b>structural</b></p>
+      <p class="spec-proves">A decoder-only transformer implemented from first principles in PyTorch — no <code>nn.Transformer</code>, no high-level wrappers. The point is to show the mechanics are understood, not assembled.</p>
+      <dl class="vitals">
+        <div><dt>Loss</dt><dd>3.38 &rarr; 1.93</dd></div>
+        <div><dt>Parameters</dt><dd>~0.5M (tiny config)</dd></div>
+        <div><dt>Tokenisation</dt><dd>character-level</dd></div>
+        <div><dt>Trains on</dt><dd>CPU, a few minutes</dd></div>
+      </dl>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="spec-body" id="dossier">
+
+      <section class="block">
+        <h2 class="block__title">Why this exists</h2>
+        <p>Wrapping a high-level API proves nothing about understanding. This is attention, masking, and the training loop written out by hand, so every design choice has to be made explicitly rather than inherited from a library default.</p>
+        <p>Every non-obvious decision is commented in <code>model.py</code>: why scaled dot-product attention divides by &radic;d, why the mask is what makes it a decoder, why pre-norm rather than post-norm, and why the input embedding is tied to the output projection.</p>
+        <p>It is trained end to end and verified to converge — <b>loss 3.38 down to 1.93</b> — producing coherent character-level samples. Enough to prove the loop works; deliberately not a scale demonstration.</p>
+      </section>
+
+      <section class="block">
+        <h2 class="block__title">What is measured</h2>
+        <dl class="kv">
+          <div><dt>Convergence</dt><dd>Loss falls from 3.38 to 1.93 on the default tiny config, on CPU.</dd></div>
+          <div><dt>Multi-head causal attention</dt><dd>Written by hand, including the mask logic that makes it a decoder.</dd></div>
+          <div><dt>A correct training loop</dt><dd>Batching, loss, gradient clipping, AdamW, evaluation and sampling.</dd></div>
+          <div><dt>Documented choices</dt><dd>&radic;d scaling, pre-norm placement and weight tying, explained inline rather than copied.</dd></div>
+        </dl>
+      </section>
+
+      <section class="block">
+        <h2 class="block__title">Layout</h2>
+        <pre class="tree"><b>transformer-from-scratch/</b>
+├── src/
+│   ├── model.py     <i># attention, MLP, blocks, GPT</i>
+│   ├── data.py      <i># char-level dataset + batching</i>
+│   └── train.py     <i># training loop, eval, sampling</i>
+└── notebooks/
+    └── walkthrough.md   <i># annotated tour of each component</i></pre>
+      </section>
+
+      <section class="block">
+        <h2 class="block__title">Run it</h2>
+        <div class="cmd-wrap">
+          <button class="copy" type="button">Copy</button>
+          <pre class="cmd">pip install -r requirements.txt
+<span class="c-dim"># any plain-text file works; a few hundred KB is plenty</span>
+python -m src.train --data data/corpus.txt --steps 2000</pre>
+        </div>
+      </section>
+
+      <section class="block limits">
+        <h2 class="block__title">Limitations</h2>
+        <ul>
+          <li>Character-level tokenisation, chosen for simplicity — no BPE.</li>
+          <li>No KV-cache, so generation is O(n&sup2;) per step. Fine at this scale, not for serving.</li>
+          <li>Trained on a toy corpus to keep the repo reproducible on a laptop.</li>
+        </ul>
+      </section>
+
+      <section class="block">
+        <h2 class="block__title">What I would do next</h2>
+        <ul class="bullets">
+          <li>Add a BPE tokeniser and compare convergence against char-level.</li>
+          <li>Implement a KV-cache and benchmark the generation speedup.</li>
+          <li>Ablate pre-norm vs. post-norm and weight tying on/off, with loss curves.</li>
+        </ul>
+      </section>
+
+    </div>
+
+    <div class="spec-cta">
+      <a class="btn btn--primary" href="https://github.com/ryanwien/Portfolio/tree/main/transformer-from-scratch">View the code on GitHub <span aria-hidden="true">&rarr;</span></a>
+      <a class="btn btn--ghost" href="../../index.html#paddocks">Back to the paddocks</a>
+    </div>
+
+    <nav class="specnav" aria-label="Other specimens">
+      <a href="../eval-first-agent/index.html">
+        <span>&larr; SP-01 &middot; previous</span>
+        <b>eval-first-agent</b>
+      </a>
+      <a href="../text-classification/index.html">
+        <span>SP-03 &middot; next &rarr;</span>
+        <b>text-classification</b>
+      </a>
+    </nav>
+  </div>
+
+</main>
+
+<footer class="foot">
+  <div class="hazard" aria-hidden="true"></div>
+  <div class="wrap foot__inner">
+    <p><b>Wien Field Station</b> &mdash; specimen containment &amp; evaluation</p>
+    <p class="foot__note">Built by Ryan Wien. Original theme; not affiliated with, or endorsed by, any film or franchise.</p>
+  </div>
+</footer>
+
+<script src="../../assets/js/specimen.js" defer></script>
+</body>
+</html>

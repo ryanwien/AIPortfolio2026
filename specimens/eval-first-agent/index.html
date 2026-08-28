@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SP-01 eval-first-agent — Wien Field Station</title>
+<meta name="description" content="eval-first-agent: what it proves, what was measured, and what it cannot do.">
+<meta property="og:title" content="SP-01 eval-first-agent — Wien Field Station">
+<meta property="og:description" content="What it proves, what was measured, and what it cannot do.">
+<meta property="og:image" content="../../assets/img/poster.webp">
+<meta name="theme-color" content="#060a08">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/style.css">
+<link rel="stylesheet" href="../../assets/css/specimen.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='13' fill='%23f0a92c'/><circle cx='16' cy='16' r='5' fill='%23231402'/></svg>">
+</head>
+<body>
+<a class="skip" href="#dossier">Skip to the dossier</a>
+
+<header class="topbar">
+  <div class="hazard" aria-hidden="true"></div>
+  <nav class="topbar__inner" aria-label="Primary">
+    <a class="brand" href="../../index.html">
+      <span class="brand__mark" aria-hidden="true"></span>
+      <span class="brand__name"><b>WIEN</b> FIELD STATION</span>
+    </a>
+    <ul class="topbar__links">
+      <li><a href="../../index.html#paddocks">Paddocks</a></li>
+      <li><a href="../../index.html#log">Log</a></li>
+      <li><a href="../../index.html#protocols">Protocols</a></li>
+      <li><a href="../../index.html#terminal">Terminal</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="spec">
+
+  <div class="spec-hero">
+    <div class="spec-hero__plate" style="background-image:url('../../assets/img/fence.webp')" aria-hidden="true"></div>
+    <div class="wrap">
+      <a class="crumb" href="../../index.html#paddocks"><span aria-hidden="true">&larr;</span> All paddocks</a>
+      <div class="spec-head">
+        <span class="spec-id">SP-01</span>
+        <span class="chip chip--warn"><span class="led led--warn" aria-hidden="true"></span>Harness armed</span>
+      </div>
+      <h1 class="spec-name">eval-first-agent</h1>
+      <p class="spec-class">Containment class &mdash; <b>apex</b></p>
+      <p class="spec-proves">The evaluation harness <em>is</em> the product; the agent is the thing being measured. The deliverable a reviewer should care about is the eval suite, not the demo.</p>
+      <dl class="vitals">
+        <div><dt>Reports</dt><dd>pass@1 &amp; pass@3</dd></div>
+        <div><dt>Cost metric</dt><dd>spend / solved task</dd></div>
+        <div><dt>Latency</dt><dd>p50 &amp; p95</dd></div>
+        <div><dt>Failure categories</dt><dd>6</dd></div>
+      </dl>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="spec-body" id="dossier">
+
+      <section class="block">
+        <h2 class="block__title">Why this exists</h2>
+        <p>An agent is easy to demo and hard to trust. This project inverts the usual emphasis: the evaluation harness is the product, and the agent is the thing being measured.</p>
+        <p>Most agent repos show a happy-path screen recording. This one ships a held-out eval set of real tasks, a harness that runs the agent over every case and scores it, pass@k and cost/latency metrics, and a failure taxonomy — failures are categorised, not merely counted. The claim being demonstrated is narrow and honest: <b>I know how agents fail in this domain, and I can quantify it.</b></p>
+        <p>The scaffold is deliberately domain-agnostic. Credibility comes from the eval set reflecting real tasks, so the cases are written by hand rather than generated — generating them with a model would defeat the entire point.</p>
+      </section>
+
+      <section class="block">
+        <h2 class="block__title">What is measured</h2>
+        <dl class="kv">
+          <div><dt>pass@k</dt><dd>Fraction of cases solved within k attempts. Reported at k=1 and k=3 so the gap between &ldquo;can do&rdquo; and &ldquo;reliably does&rdquo; is visible.</dd></div>
+          <div><dt>Cost per solved task</dt><dd>Total spend divided by passes. The number that actually matters in production.</dd></div>
+          <div><dt>p50 / p95 latency</dt><dd>Tail latency is where agents disappoint.</dd></div>
+          <div><dt>Failure breakdown</dt><dd>Share of failures by category, so the write-up can say <i>how</i> it fails rather than only <i>that</i> it fails.</dd></div>
+        </dl>
+      </section>
+
+      <section class="block">
+        <h2 class="block__title">Failure taxonomy</h2>
+        <p>Failed traces are bucketed rather than tallied. The starter categories:</p>
+        <div class="grid-cards">
+          <div><code>wrong_tool</code><p>Selected an inappropriate tool.</p></div>
+          <div><code>tool_error</code><p>Tool called with malformed arguments.</p></div>
+          <div><code>hallucinated_result</code><p>Fabricated an answer instead of using tools.</p></div>
+          <div><code>gave_up</code><p>Terminated without an answer.</p></div>
+          <div><code>loop</code><p>Repeated the same failing action.</p></div>
+          <div><code>correct_path_wrong_answer</code><p>Right approach, wrong final output.</p></div>
+        </div>
+      </section>
+
+      <section class="block">
+        <h2 class="block__title">Layout</h2>
+        <pre class="tree"><b>eval-first-agent/</b>
+├── src/
+│   ├── agent/
+│   │   ├── agent.py             <i># the agent loop (tool-calling)</i>
+│   │   └── tools.py             <i># tool definitions</i>
+│   └── evals/
+│       ├── harness.py           <i># runs every case, collects traces</i>
+│       ├── metrics.py           <i># pass@k, cost, latency</i>
+│       └── failure_taxonomy.py  <i># classifies failed traces</i>
+├── evals/
+│   └── cases.jsonl              <i># the eval set (~50-100 real cases)</i>
+└── results/                     <i># versioned run outputs</i></pre>
+      </section>
+
+      <section class="block">
+        <h2 class="block__title">Run it</h2>
+        <div class="cmd-wrap">
+          <button class="copy" type="button">Copy</button>
+          <pre class="cmd">pip install -r requirements.txt
+export ANTHROPIC_API_KEY=...        <span class="c-dim"># or your provider of choice</span>
+python -m src.evals.harness --cases evals/cases.jsonl --k 3 --out results/</pre>
+        </div>
+      </section>
+
+      <section class="block limits">
+        <h2 class="block__title">Limitations</h2>
+        <ul>
+          <li>Ships with placeholder cases; the eval set must be replaced with real domain tasks to be meaningful.</li>
+          <li>Scoring uses exact or semantic match on final answers. Some domains need rubric-based or LLM-as-judge scoring, which carries its own validation burden.</li>
+          <li>Single-provider by default. Cross-provider comparison is left as an extension.</li>
+        </ul>
+      </section>
+
+      <section class="block">
+        <h2 class="block__title">What I would do next</h2>
+        <ul class="bullets">
+          <li>Add LLM-as-judge scoring with a calibration set to validate the judge against human labels.</li>
+          <li>Track per-category failure rates across model versions to detect regressions.</li>
+          <li>Add a cost/quality Pareto plot across model tiers.</li>
+        </ul>
+      </section>
+
+    </div>
+
+    <div class="spec-cta">
+      <a class="btn btn--primary" href="https://github.com/ryanwien/Portfolio/tree/main/eval-first-agent">View the code on GitHub <span aria-hidden="true">&rarr;</span></a>
+      <a class="btn btn--ghost" href="../../index.html#paddocks">Back to the paddocks</a>
+    </div>
+
+    <nav class="specnav" aria-label="Other specimens">
+      <a href="../stock-forecasting/index.html">
+        <span>&larr; SP-05 &middot; previous</span>
+        <b>stock-forecasting</b>
+      </a>
+      <a href="../transformer-from-scratch/index.html">
+        <span>SP-02 &middot; next &rarr;</span>
+        <b>transformer-from-scratch</b>
+      </a>
+    </nav>
+  </div>
+
+</main>
+
+<footer class="foot">
+  <div class="hazard" aria-hidden="true"></div>
+  <div class="wrap foot__inner">
+    <p><b>Wien Field Station</b> &mdash; specimen containment &amp; evaluation</p>
+    <p class="foot__note">Built by Ryan Wien. Original theme; not affiliated with, or endorsed by, any film or franchise.</p>
+  </div>
+</footer>
+
+<script src="../../assets/js/specimen.js" defer></script>
+</body>
+</html>
