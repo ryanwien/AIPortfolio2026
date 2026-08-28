@@ -63,8 +63,8 @@
 .spec-body>*+*{margin-top:clamp(42px,6vw,68px)}
 
 .block__title{
-  font-family:var(--display);font-size:clamp(20px,2.8vw,28px);
-  text-transform:uppercase;letter-spacing:-.01em;color:var(--bone);
+  font-family:var(--display);font-weight:600;font-size:clamp(19px,2.6vw,27px);
+  text-transform:uppercase;letter-spacing:.02em;color:var(--bone);line-height:1.15;
   padding-bottom:14px;border-bottom:1px solid var(--line);margin-bottom:24px;
 }
 .block p{color:var(--muted);font-size:16px;max-width:72ch}
