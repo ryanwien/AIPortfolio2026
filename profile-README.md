@@ -4,6 +4,9 @@ I am focused on the unglamorous half of the field: knowing when a
 model is actually working. Demos are easy; trustworthy systems are not. My work
 leans on evals, reproducibility, and honest write-ups about tradeoffs and failures.
 
+🌐 **[ryanwien.github.io/Portfolio](https://ryanwien.github.io/Portfolio/)** — all five
+projects, with their measured results and their limitations, in one place.
+
 Five projects, each chosen to show a different competency:
 
 ### 🧭 [eval-first-agent](https://github.com/ryanwien/portfolio/tree/main/eval-first-agent)
