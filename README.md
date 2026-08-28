@@ -5,6 +5,10 @@ The throughline is measurement over demos: every project ships with an evaluatio
 story, documented limitations, and honest notes on what I'd do next. A few
 rigorous repos beat many shallow ones.
 
+**Live site: [ryanwien.github.io/Portfolio](https://ryanwien.github.io/Portfolio/)** — the
+five projects as a browsable field station, each one showing what it proves, what
+was measured, and what it cannot do.
+
 | Project | What it proves | Stack |
 |---|---|---|
 | [`eval-first-agent/`](./eval-first-agent) | I build agents and, more importantly, measure when they fail | Python, tool-calling, custom eval harness |

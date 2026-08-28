@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Wien Field Station — AI systems, measured</title>
+<meta name="description" content="Five AI systems, each kept behind a measurement fence: eval harnesses, failure taxonomies, and limitations printed as loudly as results.">
+<meta name="author" content="Ryan Wien">
+<meta property="og:title" content="Wien Field Station — AI systems, measured">
+<meta property="og:description" content="Five AI systems, each kept behind a measurement fence. Measurement over demos.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="assets/img/poster.webp">
+<meta name="theme-color" content="#060a08">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='13' fill='%23f0a92c'/><circle cx='16' cy='16' r='5' fill='%23231402'/></svg>">
+</head>
+<body>
+<a class="skip" href="#paddocks">Skip to the projects</a>
+
+<div class="boot" id="boot" aria-hidden="true">
+  <pre class="boot__text" id="boot-text"></pre>
+</div>
+
+<header class="topbar">
+  <div class="hazard" aria-hidden="true"></div>
+  <nav class="topbar__inner" aria-label="Primary">
+    <a class="brand" href="#top">
+      <span class="brand__mark" aria-hidden="true"></span>
+      <span class="brand__name"><b>WIEN</b> FIELD STATION</span>
+    </a>
+    <ul class="topbar__links">
+      <li><a href="#paddocks">Paddocks</a></li>
+      <li><a href="#log">Log</a></li>
+      <li><a href="#protocols">Protocols</a></li>
+      <li><a href="#terminal">Terminal</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="hero">
+    <div class="hero__plate" aria-hidden="true"></div>
+    <canvas class="hero__rain" id="rain" aria-hidden="true"></canvas>
+    <div class="hero__vignette" aria-hidden="true"></div>
+
+    <div class="hero__body wrap">
+      <p class="kicker"><span class="led led--on" aria-hidden="true"></span>All five enclosures &mdash; powered</p>
+      <h1 class="hero__title">Anything looks<br>tame in a <em>demo.</em></h1>
+      <p class="hero__lede">
+        Five AI systems, each kept behind a measurement fence. Eval harnesses,
+        failure taxonomies, and limitations printed as loudly as the results &mdash;
+        because the hard part was never the demo.
+      </p>
+      <div class="hero__cta">
+        <a class="btn btn--primary" href="#paddocks">Enter the paddocks <span aria-hidden="true">&rarr;</span></a>
+        <a class="btn btn--ghost" href="#log">Read the containment log</a>
+      </div>
+    </div>
+
+    <div class="readout" aria-label="Enclosure status summary">
+      <div class="readout__cell">
+        <span class="readout__id">SP-01 &middot; Agent</span>
+        <span class="readout__val val--warn">Harness armed</span>
+      </div>
+      <div class="readout__cell">
+        <span class="readout__id">SP-02 &middot; Transformer</span>
+        <span class="readout__val val--ok">Loss 3.38 &rarr; 1.93</span>
+      </div>
+      <div class="readout__cell">
+        <span class="readout__id">SP-03 &middot; Classifier</span>
+        <span class="readout__val val--ok">Pipeline verified</span>
+      </div>
+      <div class="readout__cell">
+        <span class="readout__id">SP-04 &middot; Benchmark</span>
+        <span class="readout__val val--ok">Regex floor F1 0.80</span>
+      </div>
+      <div class="readout__cell">
+        <span class="readout__id">SP-05 &middot; Forecast</span>
+        <span class="readout__val val--warn">Verified on synthetic</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FIELD NOTE ============ -->
+  <section class="note" id="note">
+    <div class="wrap note__grid">
+      <div class="note__body reveal">
+        <p class="eyebrow">Field note &mdash; 001</p>
+        <h2 class="h2">The fence is<br>the interesting part.</h2>
+        <p>
+          I work on the unglamorous half of the field: knowing when a model is
+          actually working. A system that looks brilliant in a screen recording
+          tells you almost nothing. What it does on held-out cases, at the tail
+          of the latency distribution, on the day it fails &mdash; that is the
+          measurable part, so that is the part I build first.
+        </p>
+        <p>
+          Every enclosure here ships with an evaluation story, a documented set of
+          limitations, and honest notes on what I would do next. A few rigorous
+          repos beat many shallow ones.
+        </p>
+        <dl class="note__stats">
+          <div><dt>Enclosures</dt><dd>5</dd></div>
+          <div><dt>Failure categories mapped</dt><dd>6</dd></div>
+          <div><dt>READMEs ending in &ldquo;Limitations&rdquo;</dt><dd>5</dd></div>
+        </dl>
+      </div>
+      <figure class="note__specimen reveal">
+        <img src="assets/img/amber.webp" alt="Macro photograph of an insect preserved inside a nodule of golden fossil resin." width="1000" height="1000" loading="lazy" decoding="async">
+        <figcaption>Inclusion in resin &mdash; a result you can still inspect years later. The goal for every repo below.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============ PADDOCKS ============ -->
+  <section class="paddocks" id="paddocks">
+    <div class="wrap">
+      <header class="sec-head reveal">
+        <p class="eyebrow">Section 02</p>
+        <h2 class="h2">The paddocks</h2>
+        <p class="sec-head__sub">Five specimens. Each card carries what it proves, what was measured, and what it cannot do.</p>
+      </header>
+
+      <ol class="cards">
+
+        <li class="card reveal" data-class="apex">
+          <div class="card__tape" aria-hidden="true"></div>
+          <header class="card__head">
+            <span class="card__id">SP-01</span>
+            <span class="chip chip--warn"><span class="led led--warn" aria-hidden="true"></span>Harness armed</span>
+          </header>
+          <h3 class="card__name">eval-first-agent</h3>
+          <p class="card__class">Containment class &mdash; <b>apex</b></p>
+          <p class="card__proves">The evaluation harness <em>is</em> the product; the agent is the thing being measured. Proves I build agents and, more importantly, quantify how they fail.</p>
+          <dl class="card__readout">
+            <div><dt>Reports</dt><dd>pass@1 / pass@3, cost per solved task, p50 &amp; p95</dd></div>
+            <div><dt>Failure taxonomy</dt><dd>6 categories, from <code>wrong_tool</code> to <code>loop</code></dd></div>
+            <div><dt>Status</dt><dd>Harness, metrics and taxonomy wired; plug in a provider to run live</dd></div>
+          </dl>
+          <p class="card__limit"><span>Limitation</span> Ships with placeholder cases &mdash; the eval set must be replaced with real domain tasks to mean anything.</p>
+          <ul class="card__stack"><li>Python</li><li>Tool-calling</li><li>Custom eval harness</li></ul>
+          <a class="card__link" href="https://github.com/ryanwien/portfolio/tree/main/eval-first-agent">Open enclosure <span aria-hidden="true">&rarr;</span><span class="sr-only"> — eval-first-agent on GitHub</span></a>
+        </li>
+
+        <li class="card reveal" data-class="structural">
+          <div class="card__tape" aria-hidden="true"></div>
+          <header class="card__head">
+            <span class="card__id">SP-02</span>
+            <span class="chip chip--ok"><span class="led led--on" aria-hidden="true"></span>Trained end to end</span>
+          </header>
+          <h3 class="card__name">transformer-from-scratch</h3>
+          <p class="card__class">Containment class &mdash; <b>structural</b></p>
+          <p class="card__proves">A GPT-style decoder built from first principles &mdash; attention, masking and the training loop by hand. Proves the mechanics are understood, not assembled.</p>
+          <dl class="card__readout">
+            <div><dt>Measured</dt><dd>Loss <b>3.38 &rarr; 1.93</b>, converged on CPU</dd></div>
+            <div><dt>Config</dt><dd>~0.5M params, char-level, no <code>nn.Transformer</code></dd></div>
+            <div><dt>Documented</dt><dd>Why &radic;d scaling, why pre-norm, why weights are tied &mdash; inline</dd></div>
+          </dl>
+          <p class="card__limit"><span>Limitation</span> No KV-cache, so generation is O(n&sup2;) per step &mdash; fine at this scale, not for serving.</p>
+          <ul class="card__stack"><li>PyTorch</li><li>Attention by hand</li><li>Char-level</li></ul>
+          <a class="card__link" href="https://github.com/ryanwien/portfolio/tree/main/transformer-from-scratch">Open enclosure <span aria-hidden="true">&rarr;</span><span class="sr-only"> — transformer-from-scratch on GitHub</span></a>
+        </li>
+
+        <li class="card reveal" data-class="docile">
+          <div class="card__tape" aria-hidden="true"></div>
+          <header class="card__head">
+            <span class="card__id">SP-03</span>
+            <span class="chip chip--ok"><span class="led led--on" aria-hidden="true"></span>Pipeline verified</span>
+          </header>
+          <h3 class="card__name">text-classification</h3>
+          <p class="card__class">Containment class &mdash; <b>docile</b></p>
+          <p class="card__proves">Four-way topic classification with three baselines and real error analysis &mdash; a confusion matrix and concrete misclassifications, not just an accuracy number.</p>
+          <dl class="card__readout">
+            <div><dt>Compared</dt><dd>Naive Bayes vs. TF-IDF logistic regression vs. linear SVM</dd></div>
+            <div><dt>Leak control</dt><dd>Headers, footers and quotes stripped; fit on train only</dd></div>
+            <div><dt>Reports</dt><dd>Macro-F1 beside accuracy, plus per-class precision and recall</dd></div>
+          </dl>
+          <p class="card__limit"><span>Limitation</span> Bag-of-words ignores order &mdash; &ldquo;not good&rdquo; and &ldquo;good&rdquo; look alike. No search beyond sensible defaults.</p>
+          <ul class="card__stack"><li>scikit-learn</li><li>TF-IDF</li><li>Error analysis</li></ul>
+          <a class="card__link" href="https://github.com/ryanwien/portfolio/tree/main/text-classification">Open enclosure <span aria-hidden="true">&rarr;</span><span class="sr-only"> — text-classification on GitHub</span></a>
+        </li>
+
+        <li class="card reveal" data-class="method">
+          <div class="card__tape" aria-hidden="true"></div>
+          <header class="card__head">
+            <span class="card__id">SP-04</span>
+            <span class="chip chip--ok"><span class="led led--on" aria-hidden="true"></span>Runner scoring</span>
+          </header>
+          <h3 class="card__name">extraction-benchmark</h3>
+          <p class="card__class">Containment class &mdash; <b>methodology</b></p>
+          <p class="card__proves">A small, rigorous structured-extraction benchmark. Benchmarks get cited, so the credibility comes from a defensible method rather than a flattering score.</p>
+          <dl class="card__readout">
+            <div><dt>Measured</dt><dd>Regex baseline at <b>0.80 field F1</b> &mdash; a floor every model must beat</dd></div>
+            <div><dt>Headline metric</dt><dd>Field-level F1, with strict exact-match reported beside it</dd></div>
+            <div><dt>Normalization</dt><dd>Explicit and documented &mdash; silent normalization is how benchmarks mislead</dd></div>
+          </dl>
+          <p class="card__limit"><span>Limitation</span> Three illustrative examples shipped; a credible benchmark needs 50+ hand-labelled cases and a second annotator.</p>
+          <ul class="card__stack"><li>Python</li><li>Multi-model scoring</li><li>Field-level F1</li></ul>
+          <a class="card__link" href="https://github.com/ryanwien/portfolio/tree/main/extraction-benchmark">Open enclosure <span aria-hidden="true">&rarr;</span><span class="sr-only"> — extraction-benchmark on GitHub</span></a>
+        </li>
+
+        <li class="card reveal" data-class="volatile">
+          <div class="card__tape" aria-hidden="true"></div>
+          <header class="card__head">
+            <span class="card__id">SP-05</span>
+            <span class="chip chip--warn"><span class="led led--warn" aria-hidden="true"></span>Verified on synthetic</span>
+          </header>
+          <h3 class="card__name">stock-forecasting</h3>
+          <p class="card__class">Containment class &mdash; <b>volatile</b></p>
+          <p class="card__proves">Next-day return forecasting done correctly, where the easy mistakes quietly produce results that look great and mean nothing. The discipline is the deliverable.</p>
+          <dl class="card__readout">
+            <div><dt>No lookahead</dt><dd>Every feature at <i>t</i> uses only data available at or before <i>t</i></dd></div>
+            <div><dt>Split</dt><dd>Strictly chronological; scaling fit on train only</dd></div>
+            <div><dt>Judged by</dt><dd>Directional accuracy and a long/flat backtest against buy-and-hold</dd></div>
+          </dl>
+          <p class="card__limit"><span>Limitation</span> Expect directional accuracy near 0.5. A portfolio claiming 70% almost always has a leak &mdash; that honesty is the point.</p>
+          <ul class="card__stack"><li>PyTorch LSTM</li><li>yfinance</li><li>Sharpe &amp; drawdown</li></ul>
+          <a class="card__link" href="https://github.com/ryanwien/portfolio/tree/main/stock-forecasting">Open enclosure <span aria-hidden="true">&rarr;</span><span class="sr-only"> — stock-forecasting on GitHub</span></a>
+        </li>
+
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ CONTAINMENT LOG ============ -->
+  <section class="log" id="log">
+    <div class="log__plate" aria-hidden="true"></div>
+    <div class="wrap">
+      <header class="sec-head reveal">
+        <p class="eyebrow">Section 03</p>
+        <h2 class="h2">Containment log</h2>
+        <p class="sec-head__sub">What has actually been run, stated plainly. Green is verified end to end; amber is wired but waiting on something external.</p>
+      </header>
+
+      <div class="log__panel reveal">
+        <div class="log__row">
+          <span class="led led--on" aria-hidden="true"></span>
+          <span class="log__name">transformer-from-scratch</span>
+          <span class="log__desc">Trained end to end</span>
+          <span class="log__val">loss 3.38 &rarr; 1.93</span>
+        </div>
+        <div class="log__row">
+          <span class="led led--on" aria-hidden="true"></span>
+          <span class="log__name">text-classification</span>
+          <span class="log__desc">Full pipeline, confusion matrix, error analysis</span>
+          <span class="log__val">run</span>
+        </div>
+        <div class="log__row">
+          <span class="led led--on" aria-hidden="true"></span>
+          <span class="log__name">extraction-benchmark</span>
+          <span class="log__desc">Runner and scoring execute</span>
+          <span class="log__val">regex 0.80 F1</span>
+        </div>
+        <div class="log__row">
+          <span class="led led--warn" aria-hidden="true"></span>
+          <span class="log__name">stock-forecasting</span>
+          <span class="log__desc">Pipeline and LSTM verified on synthetic data</span>
+          <span class="log__val">live via yfinance</span>
+        </div>
+        <div class="log__row">
+          <span class="led led--warn" aria-hidden="true"></span>
+          <span class="log__name">eval-first-agent</span>
+          <span class="log__desc">Harness, metrics and failure taxonomy wired</span>
+          <span class="log__val">awaiting provider</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROTOCOLS ============ -->
+  <section class="protocols" id="protocols">
+    <div class="wrap">
+      <header class="sec-head reveal">
+        <p class="eyebrow">Section 04</p>
+        <h2 class="h2">Station protocols</h2>
+        <p class="sec-head__sub">The rules every enclosure is built to. Posted where you can read them.</p>
+      </header>
+      <ol class="placard reveal">
+        <li><span class="placard__n">01</span><b>Reproducible.</b> Pinned dependencies, deterministic seeds, one command to run it.</li>
+        <li><span class="placard__n">02</span><b>Results are versioned artifacts.</b> Never a screenshot.</li>
+        <li><span class="placard__n">03</span><b>Every README ends with limitations.</b> Followed by what I would do next.</li>
+        <li><span class="placard__n">04</span><b>No secrets in any repo.</b> API keys are read from the environment at runtime.</li>
+        <li><span class="placard__n">05</span><b>Measurement over demos.</b> If it cannot be measured, it does not ship.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ TERMINAL ============ -->
+  <section class="terminal" id="terminal">
+    <div class="wrap">
+      <header class="sec-head reveal">
+        <p class="eyebrow">Section 05</p>
+        <h2 class="h2">Station terminal</h2>
+        <p class="sec-head__sub">Authorised as visitor. Type <code>help</code> for the command list, or just use the links above.</p>
+      </header>
+
+      <div class="term reveal" id="term">
+        <div class="term__bar">
+          <span class="term__dot" aria-hidden="true"></span>
+          <span class="term__dot" aria-hidden="true"></span>
+          <span class="term__dot" aria-hidden="true"></span>
+          <span class="term__title">station@wien &mdash; perimeter shell</span>
+        </div>
+        <div class="term__screen" id="term-screen" role="log" aria-live="polite" aria-label="Terminal output"></div>
+        <form class="term__form" id="term-form" autocomplete="off">
+          <label class="term__prompt" for="term-input">station@wien:~$</label>
+          <input class="term__input" id="term-input" name="cmd" type="text" spellcheck="false"
+                 aria-label="Terminal command" placeholder="type help">
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section class="contact" id="contact">
+    <div class="wrap contact__inner reveal">
+      <p class="eyebrow">Section 06</p>
+      <h2 class="h2">Open a channel</h2>
+      <p class="contact__lede">Happy to talk about evals, failure taxonomies, or why your directional accuracy looks suspiciously good.</p>
+      <div class="contact__links">
+        <a class="btn btn--primary" href="mailto:ryanwien3d@gmail.com">ryanwien3d@gmail.com</a>
+        <a class="btn btn--ghost" href="https://www.linkedin.com/in/ryanwien3d/">LinkedIn</a>
+        <a class="btn btn--ghost" href="https://github.com/ryanwien">GitHub</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="hazard" aria-hidden="true"></div>
+  <div class="wrap foot__inner">
+    <p><b>Wien Field Station</b> &mdash; specimen containment &amp; evaluation</p>
+    <p class="foot__note">Built by Ryan Wien. Original theme; not affiliated with, or endorsed by, any film or franchise.</p>
+  </div>
+</footer>
+
+<script src="assets/js/main.js" defer></script>
+</body>
+</html>
