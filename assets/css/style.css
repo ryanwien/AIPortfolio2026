@@ -294,13 +294,19 @@ code{font-family:var(--mono);font-size:.88em;color:var(--amber-hi)}
   font-family:var(--mono);font-size:10px;letter-spacing:.09em;
   padding:4px 9px;border:1px solid var(--line);color:var(--muted);border-radius:2px;
 }
-.card__link{
-  margin-top:auto;align-self:flex-start;
+.card__links{
+  margin-top:auto;display:flex;align-items:center;gap:18px;flex-wrap:wrap;
+  padding-top:4px;
+}
+.card__link,.card__gh{
   font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
-  color:var(--amber);text-decoration:none;border-bottom:1px solid transparent;
+  text-decoration:none;border-bottom:1px solid transparent;
   padding-bottom:3px;transition:border-color .2s,color .2s;
 }
+.card__link{color:var(--amber)}
 .card__link:hover{border-bottom-color:var(--amber);color:var(--amber-hi)}
+.card__gh{color:var(--faint);font-size:10.5px}
+.card__gh:hover{color:var(--text);border-bottom-color:var(--line-2)}
 
 /* ---------- containment log ---------- */
 

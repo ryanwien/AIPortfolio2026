@@ -147,7 +147,8 @@
   var input = document.getElementById('term-input');
   if (!screen || !form || !input) return;
 
-  var BASE = 'https://github.com/ryanwien/portfolio/tree/main/';
+  var GH = 'https://github.com/ryanwien/Portfolio/tree/main/';
+  var DOSSIER = 'specimens/';
 
   var SPECIMENS = [
     {
@@ -218,7 +219,8 @@
       print('  <span class="t-bone">ls</span>          list the five specimens');
       print('  <span class="t-bone">status</span>      containment log — what has actually been run');
       print('  <span class="t-bone">cat</span> &lt;id&gt;    full record for one specimen (e.g. <span class="t-dim">cat 02</span>)');
-      print('  <span class="t-bone">open</span> &lt;id&gt;   open that repo on GitHub');
+      print('  <span class="t-bone">open</span> &lt;id&gt;   open that specimen&rsquo;s full dossier page');
+      print('  <span class="t-bone">code</span> &lt;id&gt;   open that repo on GitHub');
       print('  <span class="t-bone">limits</span>      every documented limitation, in one place');
       print('  <span class="t-bone">protocols</span>   the five station protocols');
       print('  <span class="t-bone">whoami</span>      who runs this station');
@@ -265,7 +267,7 @@
       print('  <span class="t-dim">stack   </span> ' + esc(s.stack));
       print('  <span class="t-dim">limit   </span> <span class="t-red">' + esc(s.limit) + '</span>');
       blank();
-      print('  <a href="' + BASE + s.slug + '">' + BASE + s.slug + '</a>');
+      print('  <a href="' + DOSSIER + s.slug + '/index.html">full dossier &rarr;</a>   <a href="' + GH + s.slug + '">code on github &rarr;</a>');
     },
 
     open: function (arg) {
@@ -274,8 +276,18 @@
         print('<span class="t-red">Usage:</span> open &lt;id&gt; — e.g. <span class="t-bone">open 02</span> or <span class="t-bone">open stock-forecasting</span>');
         return;
       }
-      print('Opening <span class="t-bone">' + s.slug + '</span> …');
-      window.open(BASE + s.slug, '_blank', 'noopener');
+      print('Opening the <span class="t-bone">' + s.slug + '</span> dossier …');
+      window.location.href = DOSSIER + s.slug + '/index.html';
+    },
+
+    code: function (arg) {
+      var s = findSpecimen(arg);
+      if (!s) {
+        print('<span class="t-red">Usage:</span> code &lt;id&gt; — e.g. <span class="t-bone">code 04</span>');
+        return;
+      }
+      print('Opening <span class="t-bone">' + s.slug + '</span> on GitHub …');
+      window.open(GH + s.slug, '_blank', 'noopener');
     },
 
     limits: function () {

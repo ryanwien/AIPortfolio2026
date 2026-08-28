@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SP-04 extraction-benchmark — Wien Field Station</title>
+<meta name="description" content="extraction-benchmark: what it proves, what was measured, and what it cannot do.">
+<meta property="og:title" content="SP-04 extraction-benchmark — Wien Field Station">
+<meta property="og:description" content="What it proves, what was measured, and what it cannot do.">
+<meta property="og:image" content="../../assets/img/poster.webp">
+<meta name="theme-color" content="#060a08">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/style.css">
+<link rel="stylesheet" href="../../assets/css/specimen.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='13' fill='%23f0a92c'/><circle cx='16' cy='16' r='5' fill='%23231402'/></svg>">
+</head>
+<body>
+<a class="skip" href="#dossier">Skip to the dossier</a>
+
+<header class="topbar">
+  <div class="hazard" aria-hidden="true"></div>
+  <nav class="topbar__inner" aria-label="Primary">
+    <a class="brand" href="../../index.html">
+      <span class="brand__mark" aria-hidden="true"></span>
+      <span class="brand__name"><b>WIEN</b> FIELD STATION</span>
+    </a>
+    <ul class="topbar__links">
+      <li><a href="../../index.html#paddocks">Paddocks</a></li>
+      <li><a href="../../index.html#log">Log</a></li>
+      <li><a href="../../index.html#protocols">Protocols</a></li>
+      <li><a href="../../index.html#terminal">Terminal</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="spec">
+
+  <div class="spec-hero">
+    <div class="spec-hero__plate" style="background-image:url('../../assets/img/poster.webp')" aria-hidden="true"></div>
+    <div class="wrap">
+      <a class="crumb" href="../../index.html#paddocks"><span aria-hidden="true">&larr;</span> All paddocks</a>
+      <div class="spec-head">
+        <span class="spec-id">SP-04</span>
+        <span class="chip chip--ok"><span class="led led--on" aria-hidden="true"></span>Runner scoring</span>
+      </div>
+      <h1 class="spec-name">extraction-benchmark</h1>
+      <p class="spec-class">Containment class &mdash; <b>methodology</b></p>
+      <p class="spec-proves">A small, rigorous benchmark for structured extraction. Benchmarks get shared and cited, so the credibility has to come from a defensible methodology rather than a leaderboard-topping score.</p>
+      <dl class="vitals">
+        <div><dt>Headline metric</dt><dd>field-level F1</dd></div>
+        <div><dt>Regex baseline</dt><dd>0.80 F1</dd></div>
+        <div><dt>Reported beside it</dt><dd>strict exact match</dd></div>
+        <div><dt>Normalisation</dt><dd>explicit, documented</dd></div>
+      </dl>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="spec-body" id="dossier">
+
+      <section class="block">
+        <h2 class="block__title">Why this exists</h2>
+        <p>A benchmark is only as good as its method. This one is built so a sceptical reader can audit every choice: what counts as correct, what gets normalised before comparison, and what floor a model has to clear before its score means anything.</p>
+        <p>Out of the box it runs a <b>regex baseline</b>, so the harness produces real numbers immediately rather than waiting on model access — currently <b>0.80 field F1</b>. A model that cannot beat regex on this task is itself a result worth reporting.</p>
+        <p>The example task is invoice field extraction. The scaffold is meant to be repointed at a domain you actually know, because the value of a benchmark lives in the quality and realism of its eval set.</p>
+      </section>
+
+      <section class="block">
+        <h2 class="block__title">What is measured</h2>
+        <dl class="kv">
+          <div><dt>Field-level F1</dt><dd>The headline metric — partial credit per field, computed from precision and recall over correctly extracted fields.</dd></div>
+          <div><dt>Exact match</dt><dd>A stricter view reported alongside: did the <i>entire</i> record match? The gap between the two is informative on its own.</dd></div>
+          <div><dt>Explicit normalisation</dt><dd>Case, whitespace, currency symbols and thousands separators are normalised so &ldquo;$1,250.00&rdquo; equals &ldquo;1250.00&rdquo;. Documented, because silent normalisation choices are how benchmarks mislead.</dd></div>
+          <div><dt>A non-trivial baseline</dt><dd>Regex gives every model a floor to beat.</dd></div>
+        </dl>
+      </section>
+
+      <section class="block">
+        <h2 class="block__title">Layout</h2>
+        <pre class="tree"><b>extraction-benchmark/</b>
+├── src/
+│   ├── run_benchmark.py   <i># runs all models, scores, writes the table</i>
+│   ├── models.py          <i># adapters (regex baseline + LLM slots)</i>
+│   └── scoring.py         <i># field-level F1, exact match, normalisation</i>
+├── data/
+│   └── eval_set.jsonl     <i># gold-labelled examples, hand-written</i>
+└── results/               <i># versioned result artifacts</i></pre>
+      </section>
+
+      <section class="block">
+        <h2 class="block__title">Run it</h2>
+        <div class="cmd-wrap">
+          <button class="copy" type="button">Copy</button>
+          <pre class="cmd">pip install -r requirements.txt
+python -m src.run_benchmark --data data/eval_set.jsonl --models all --out results/</pre>
+        </div>
+        <p style="margin-top:24px">Sample output:</p>
+        <pre class="tree">model                     field_F1     exact     p50_s
+------------------------------------------------------
+regex-baseline               0.800     0.000     0.000</pre>
+      </section>
+
+      <section class="block limits">
+        <h2 class="block__title">Limitations</h2>
+        <ul>
+          <li>The shipped eval set is 3 illustrative examples. A credible benchmark needs 50+ hand-labelled, realistic cases — generating them with a model defeats the point.</li>
+          <li>Single annotator. For a public benchmark, a second annotator and an inter-annotator agreement number would strengthen it considerably.</li>
+          <li>Exact and normalised matching can be too strict for free-text fields such as vendor names.</li>
+        </ul>
+      </section>
+
+      <section class="block">
+        <h2 class="block__title">What I would do next</h2>
+        <ul class="bullets">
+          <li>Expand to 50–100 hand-labelled real documents and report a confidence interval.</li>
+          <li>Add fuzzy matching for name-like fields and report both strict and fuzzy F1.</li>
+          <li>Add cost-per-document so the quality/cost tradeoff across models is visible.</li>
+        </ul>
+      </section>
+
+    </div>
+
+    <div class="spec-cta">
+      <a class="btn btn--primary" href="https://github.com/ryanwien/Portfolio/tree/main/extraction-benchmark">View the code on GitHub <span aria-hidden="true">&rarr;</span></a>
+      <a class="btn btn--ghost" href="../../index.html#paddocks">Back to the paddocks</a>
+    </div>
+
+    <nav class="specnav" aria-label="Other specimens">
+      <a href="../text-classification/index.html">
+        <span>&larr; SP-03 &middot; previous</span>
+        <b>text-classification</b>
+      </a>
+      <a href="../stock-forecasting/index.html">
+        <span>SP-05 &middot; next &rarr;</span>
+        <b>stock-forecasting</b>
+      </a>
+    </nav>
+  </div>
+
+</main>
+
+<footer class="foot">
+  <div class="hazard" aria-hidden="true"></div>
+  <div class="wrap foot__inner">
+    <p><b>Wien Field Station</b> &mdash; specimen containment &amp; evaluation</p>
+    <p class="foot__note">Built by Ryan Wien. Original theme; not affiliated with, or endorsed by, any film or franchise.</p>
+  </div>
+</footer>
+
+<script src="../../assets/js/specimen.js" defer></script>
+</body>
+</html>

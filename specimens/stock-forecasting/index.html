@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SP-05 stock-forecasting — Wien Field Station</title>
+<meta name="description" content="stock-forecasting: what it proves, what was measured, and what it cannot do.">
+<meta property="og:title" content="SP-05 stock-forecasting — Wien Field Station">
+<meta property="og:description" content="What it proves, what was measured, and what it cannot do.">
+<meta property="og:image" content="../../assets/img/poster.webp">
+<meta name="theme-color" content="#060a08">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/style.css">
+<link rel="stylesheet" href="../../assets/css/specimen.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='13' fill='%23f0a92c'/><circle cx='16' cy='16' r='5' fill='%23231402'/></svg>">
+</head>
+<body>
+<a class="skip" href="#dossier">Skip to the dossier</a>
+
+<header class="topbar">
+  <div class="hazard" aria-hidden="true"></div>
+  <nav class="topbar__inner" aria-label="Primary">
+    <a class="brand" href="../../index.html">
+      <span class="brand__mark" aria-hidden="true"></span>
+      <span class="brand__name"><b>WIEN</b> FIELD STATION</span>
+    </a>
+    <ul class="topbar__links">
+      <li><a href="../../index.html#paddocks">Paddocks</a></li>
+      <li><a href="../../index.html#log">Log</a></li>
+      <li><a href="../../index.html#protocols">Protocols</a></li>
+      <li><a href="../../index.html#terminal">Terminal</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="spec">
+
+  <div class="spec-hero">
+    <div class="spec-hero__plate" style="background-image:url('../../assets/img/track.webp')" aria-hidden="true"></div>
+    <div class="wrap">
+      <a class="crumb" href="../../index.html#paddocks"><span aria-hidden="true">&larr;</span> All paddocks</a>
+      <div class="spec-head">
+        <span class="spec-id">SP-05</span>
+        <span class="chip chip--warn"><span class="led led--warn" aria-hidden="true"></span>Verified on synthetic</span>
+      </div>
+      <h1 class="spec-name">stock-forecasting</h1>
+      <p class="spec-class">Containment class &mdash; <b>volatile</b></p>
+      <p class="spec-proves">Next-day return forecasting on real market data with a PyTorch LSTM. The point is not to get rich — it is to do time-series ML correctly, where the easy mistakes silently produce results that look great and mean nothing.</p>
+      <dl class="vitals">
+        <div><dt>Features</dt><dd>8, all causal</dd></div>
+        <div><dt>Split</dt><dd>strictly chronological</dd></div>
+        <div><dt>Judged by</dt><dd>Sharpe &amp; max drawdown</dd></div>
+        <div><dt>Benchmark</dt><dd>buy-and-hold</dd></div>
+      </dl>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="spec-body" id="dossier">
+
+      <section class="block">
+        <h2 class="block__title">Why this exists</h2>
+        <p>Lookahead bias, leaky scaling and evaluating on the wrong metric are the three ways a forecasting project quietly lies to you. All three produce beautiful numbers. This repo is built to demonstrate the pipeline can be constructed without any of them.</p>
+        <p><b>No lookahead:</b> every feature at time <i>t</i> uses only data available at or before <i>t</i>; the only forward-looking column is the label. <b>Chronological split:</b> the test set is strictly the most recent data, never a random shuffle. <b>Train-only scaling:</b> standardisation statistics are fit on train and applied to test, so test statistics cannot leak backward.</p>
+        <p><b>Honest evaluation:</b> low MSE is not the goal. The repo reports directional accuracy and a long/flat backtest — annualised Sharpe and maximum drawdown — measured against buy-and-hold, because a strategy that cannot beat buy-and-hold is not a strategy.</p>
+      </section>
+
+      <section class="block">
+        <h2 class="block__title">What is measured</h2>
+        <dl class="kv">
+          <div><dt>Directional accuracy</dt><dd>Expect numbers near 0.5. Daily equity returns are close to unpredictable from price history alone, and saying so is the honest result.</dd></div>
+          <div><dt>Annualised Sharpe</dt><dd>From a long/flat backtest of the model’s signal.</dd></div>
+          <div><dt>Maximum drawdown</dt><dd>The loss an investor would actually have had to sit through.</dd></div>
+          <div><dt>Buy-and-hold benchmark</dt><dd>Every number above is reported against it. Without the benchmark the numbers are decoration.</dd></div>
+        </dl>
+      </section>
+
+      <section class="block">
+        <h2 class="block__title">The eight features</h2>
+        <p>All causal by construction — past-only, computed per timestep:</p>
+        <div class="grid-cards">
+          <div><code>returns</code><p>1-day and 5-day returns.</p></div>
+          <div><code>log_volume</code><p>Log-transformed traded volume.</p></div>
+          <div><code>price_to_ma</code><p>Price-to-moving-average ratios at 5, 10 and 20 days.</p></div>
+          <div><code>realized_vol</code><p>10-day realised volatility.</p></div>
+          <div><code>rsi_14</code><p>Relative strength index over 14 days.</p></div>
+        </div>
+      </section>
+
+      <section class="block">
+        <h2 class="block__title">Layout</h2>
+        <pre class="tree"><b>stock-forecasting/</b>
+├── src/
+│   ├── data.py     <i># fetch, features, sequencing, split</i>
+│   ├── model.py    <i># the LSTM forecaster</i>
+│   └── train.py    <i># training loop + financial evaluation</i>
+├── data/           <i># cache (gitignored)</i>
+└── results/        <i># metrics artifacts</i></pre>
+      </section>
+
+      <section class="block">
+        <h2 class="block__title">Run it</h2>
+        <div class="cmd-wrap">
+          <button class="copy" type="button">Copy</button>
+          <pre class="cmd">pip install -r requirements.txt
+python -m src.train --ticker AAPL --start 2015-01-01 --end 2024-01-01</pre>
+        </div>
+      </section>
+
+      <section class="block limits">
+        <h2 class="block__title">Limitations</h2>
+        <ul>
+          <li>Price and volume features only — no fundamentals, news, or cross-asset signals.</li>
+          <li>Single ticker at a time; no portfolio construction and no transaction costs.</li>
+          <li>The backtest is intentionally naive — long/flat, no costs or slippage. It is a sanity check, not a tradeable strategy.</li>
+          <li>Expect directional accuracy near 0.5. A portfolio claiming 70% next-day accuracy almost always has a leak.</li>
+        </ul>
+      </section>
+
+      <section class="block">
+        <h2 class="block__title">What I would do next</h2>
+        <ul class="bullets">
+          <li>Add transaction costs and slippage to make the backtest realistic.</li>
+          <li>Walk-forward validation (rolling retrain) instead of a single split.</li>
+          <li>Compare against simpler baselines — predict-zero, AR(1) — to prove the LSTM earns its complexity. Often it does not, which is itself worth reporting.</li>
+        </ul>
+      </section>
+
+    </div>
+
+    <div class="spec-cta">
+      <a class="btn btn--primary" href="https://github.com/ryanwien/Portfolio/tree/main/stock-forecasting">View the code on GitHub <span aria-hidden="true">&rarr;</span></a>
+      <a class="btn btn--ghost" href="../../index.html#paddocks">Back to the paddocks</a>
+    </div>
+
+    <nav class="specnav" aria-label="Other specimens">
+      <a href="../extraction-benchmark/index.html">
+        <span>&larr; SP-04 &middot; previous</span>
+        <b>extraction-benchmark</b>
+      </a>
+      <a href="../eval-first-agent/index.html">
+        <span>SP-01 &middot; next &rarr;</span>
+        <b>eval-first-agent</b>
+      </a>
+    </nav>
+  </div>
+
+</main>
+
+<footer class="foot">
+  <div class="hazard" aria-hidden="true"></div>
+  <div class="wrap foot__inner">
+    <p><b>Wien Field Station</b> &mdash; specimen containment &amp; evaluation</p>
+    <p class="foot__note">Built by Ryan Wien. Original theme; not affiliated with, or endorsed by, any film or franchise.</p>
+  </div>
+</footer>
+
+<script src="../../assets/js/specimen.js" defer></script>
+</body>
+</html>

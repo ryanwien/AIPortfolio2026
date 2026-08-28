@@ -1,0 +1,159 @@
+/* ============================================================
+   Wien Field Station — specimen dossier pages
+   Loaded after style.css; reuses its tokens.
+   ============================================================ */
+
+.spec{padding-bottom:clamp(60px,9vw,110px)}
+
+/* ---------- banner ---------- */
+
+.spec-hero{
+  position:relative;isolation:isolate;overflow:hidden;
+  padding:clamp(48px,8vw,96px) 0 clamp(34px,5vw,54px);
+  border-bottom:1px solid var(--line);
+}
+.spec-hero__plate{
+  position:absolute;inset:0;z-index:-2;
+  background-position:center;background-size:cover;background-repeat:no-repeat;
+  opacity:.34;
+}
+.spec-hero::after{
+  content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(180deg,rgba(6,10,8,.82) 0%,rgba(6,10,8,.72) 45%,var(--bg) 100%);
+}
+
+.crumb{
+  display:inline-flex;align-items:center;gap:8px;margin-bottom:26px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted);text-decoration:none;border-bottom:1px solid transparent;padding-bottom:2px;
+  transition:color .18s,border-color .18s;
+}
+.crumb:hover{color:var(--amber);border-bottom-color:var(--amber)}
+
+.spec-head{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+.spec-id{font-family:var(--mono);font-size:12px;letter-spacing:.22em;color:var(--faint)}
+.spec-name{
+  font-family:var(--mono);font-weight:600;letter-spacing:-.015em;color:var(--bone);
+  font-size:clamp(26px,5vw,46px);line-height:1.08;margin:0 0 12px;word-break:break-word;
+}
+.spec-class{
+  font-family:var(--mono);font-size:11px;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--faint);margin:0 0 20px;
+}
+.spec-class b{color:var(--amber);font-weight:500}
+.spec-proves{max-width:60ch;font-size:clamp(16px,1.9vw,19px);color:#b6c4ba;margin:0}
+
+/* ---------- vitals ---------- */
+
+.vitals{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:1px;background:var(--line);border:1px solid var(--line);
+  margin:clamp(32px,5vw,48px) 0 0;
+}
+.vitals>div{background:var(--panel);padding:16px 18px;min-width:0}
+.vitals dt{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--faint);
+}
+.vitals dd{margin:7px 0 0;font-family:var(--mono);font-size:14px;color:var(--amber-hi);line-height:1.45}
+
+/* ---------- body ---------- */
+
+.spec-body{max-width:840px;margin:0 auto;padding-top:clamp(48px,7vw,80px)}
+.spec-body>*+*{margin-top:clamp(42px,6vw,68px)}
+
+.block__title{
+  font-family:var(--display);font-size:clamp(20px,2.8vw,28px);
+  text-transform:uppercase;letter-spacing:-.01em;color:var(--bone);
+  padding-bottom:14px;border-bottom:1px solid var(--line);margin-bottom:24px;
+}
+.block p{color:var(--muted);font-size:16px;max-width:72ch}
+.block p b,.block p strong{color:var(--text);font-weight:600}
+
+/* key/value list */
+.kv{margin:0}
+.kv>div{
+  display:grid;grid-template-columns:190px 1fr;gap:20px;
+  padding:16px 0;border-bottom:1px solid var(--line);
+}
+.kv>div:last-child{border-bottom:0}
+.kv dt{font-family:var(--mono);font-size:12px;letter-spacing:.05em;color:var(--amber);padding-top:2px}
+.kv dd{margin:0;color:var(--muted);font-size:15px;line-height:1.65}
+@media(max-width:600px){.kv>div{grid-template-columns:1fr;gap:6px}}
+
+/* plain bullet list */
+.bullets li{
+  position:relative;padding-left:26px;margin-bottom:14px;
+  color:var(--muted);font-size:15.5px;line-height:1.7;
+}
+.bullets li::before{
+  content:"";position:absolute;left:2px;top:11px;
+  width:7px;height:1px;background:var(--amber);
+}
+.bullets li b{color:var(--text);font-weight:600}
+.bullets li:last-child{margin-bottom:0}
+
+/* mono blocks */
+.tree,.cmd{
+  font-family:var(--mono);font-size:12.5px;line-height:1.75;
+  background:#040706;border:1px solid var(--line);
+  padding:20px 22px;overflow-x:auto;color:var(--text);margin:0;
+}
+.tree{color:var(--muted)}
+.tree b{color:var(--bone);font-weight:400}
+.tree i{color:var(--faint);font-style:normal}
+
+.cmd-wrap{position:relative}
+.cmd{color:var(--green);padding-right:92px}
+.cmd .c-dim{color:#2b6b48}
+.copy{
+  position:absolute;top:12px;right:12px;
+  font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+  background:transparent;color:var(--muted);border:1px solid var(--line-2);
+  padding:6px 11px;border-radius:2px;cursor:pointer;transition:color .18s,border-color .18s;
+}
+.copy:hover{color:var(--amber);border-color:var(--amber)}
+.copy.is-done{color:var(--green);border-color:var(--green)}
+
+/* taxonomy / model grid */
+.grid-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.grid-cards>div{background:var(--panel);padding:18px 20px}
+.grid-cards code{display:block;font-size:13px;color:var(--amber);margin-bottom:7px}
+.grid-cards p{margin:0;font-size:14px;color:var(--muted);line-height:1.6}
+
+/* limitations */
+.limits{background:rgba(212,68,43,.07);border-left:3px solid var(--red);padding:24px 26px}
+.limits .block__title{border-bottom-color:rgba(212,68,43,.3);color:#f0a08c}
+.limits li{
+  position:relative;padding-left:26px;margin-bottom:14px;
+  color:#c9b2ab;font-size:15.5px;line-height:1.7;
+}
+.limits li::before{content:"";position:absolute;left:2px;top:11px;width:7px;height:1px;background:var(--red)}
+.limits li:last-child{margin-bottom:0}
+
+/* ---------- prev / next ---------- */
+
+.specnav{
+  max-width:840px;margin:clamp(56px,8vw,96px) auto 0;
+  display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);
+}
+.specnav a{
+  background:var(--panel);padding:22px 24px;text-decoration:none;
+  display:block;transition:background .2s ease;min-width:0;
+}
+.specnav a:hover{background:var(--panel-2)}
+.specnav span{
+  display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--faint);margin-bottom:8px;
+}
+.specnav b{
+  display:block;font-family:var(--mono);font-size:14.5px;font-weight:500;color:var(--amber);
+  overflow-wrap:break-word;
+}
+.specnav a:last-child{text-align:right}
+@media(max-width:600px){
+  .specnav{grid-template-columns:1fr}
+  .specnav a:last-child{text-align:left}
+}
+
+.spec-cta{max-width:840px;margin:clamp(34px,5vw,52px) auto 0;display:flex;flex-wrap:wrap;gap:12px}
