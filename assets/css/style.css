@@ -24,7 +24,9 @@
 
   --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
   --sans:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
-  --display:'Archivo Black','Arial Black',sans-serif;
+  /* condensed signage face; always set an explicit weight with it,
+     Oswald's default 400 is far too light for display sizes */
+  --display:'Oswald','Arial Narrow',sans-serif;
 
   --wrap:1180px;
   --pad:clamp(20px,4vw,44px);
@@ -69,9 +71,10 @@ ol,ul{margin:0;padding:0;list-style:none}
 }
 
 .h2{
-  font-family:var(--display);
-  font-size:clamp(30px,5vw,52px);
-  letter-spacing:-.02em;text-transform:uppercase;color:var(--bone);
+  font-family:var(--display);font-weight:600;
+  font-size:clamp(28px,4.6vw,46px);
+  letter-spacing:.012em;text-transform:uppercase;color:var(--bone);
+  line-height:1.06;
 }
 
 .led{
@@ -162,9 +165,10 @@ code{font-family:var(--mono);font-size:.88em;color:var(--amber-hi)}
 }
 .hero__body{padding:clamp(56px,9vh,110px) var(--pad) clamp(44px,7vh,86px);position:relative}
 .hero__title{
-  font-family:var(--display);
-  font-size:clamp(42px,8.4vw,104px);
-  letter-spacing:-.025em;text-transform:uppercase;color:var(--bone);
+  font-family:var(--display);font-weight:600;
+  font-size:clamp(38px,7.2vw,82px);
+  letter-spacing:.005em;line-height:1.02;
+  text-transform:uppercase;color:var(--bone);
   text-shadow:0 3px 40px rgba(0,0,0,.75);
 }
 .hero__title em{font-style:normal;color:var(--amber)}
@@ -208,7 +212,7 @@ code{font-family:var(--mono);font-size:.88em;color:var(--amber-hi)}
 }
 .note__stats>div{background:var(--panel);padding:18px 20px}
 .note__stats dt{font-family:var(--mono);font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--faint)}
-.note__stats dd{margin:8px 0 0;font-family:var(--display);font-size:30px;color:var(--amber)}
+.note__stats dd{margin:8px 0 0;font-family:var(--display);font-weight:600;font-size:34px;color:var(--amber);line-height:1.1}
 
 .note__specimen{margin:0}
 .note__specimen img{
@@ -358,8 +362,8 @@ code{font-family:var(--mono);font-size:.88em;color:var(--amber-hi)}
 }
 .placard li b{display:block;color:var(--bone);font-weight:600;margin-bottom:5px;font-size:15px}
 .placard__n{
-  display:block;font-family:var(--display);font-size:26px;color:var(--amber);
-  opacity:.32;margin-bottom:12px;letter-spacing:.02em;
+  display:block;font-family:var(--display);font-weight:600;font-size:30px;color:var(--amber);
+  opacity:.34;margin-bottom:12px;letter-spacing:.03em;line-height:1;
 }
 
 /* ---------- terminal ---------- */
