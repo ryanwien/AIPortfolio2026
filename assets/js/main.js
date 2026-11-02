@@ -320,8 +320,8 @@
     },
 
     contact: function () {
-      print('  <span class="t-dim">linkedin</span> <a href="https://www.linkedin.com/in/ryanwien3d" target="_blank" rel="noopener">linkedin.com/in/ryanwien3d</a>');
-      print('  <span class="t-dim">linkedin</span> <a href="https://www.linkedin.com/in/ryanwien3d/">linkedin.com/in/ryanwien3d</a>');
+      print('  <span class="t-dim">linkedin</span> <a href="https://www.linkedin.com/in/ryan-wien" target="_blank" rel="noopener">linkedin.com/in/ryan-wien</a>');
+      print('  <span class="t-dim">linkedin</span> <a href="https://www.linkedin.com/in/ryan-wien/">linkedin.com/in/ryan-wien</a>');
       print('  <span class="t-dim">github  </span> <a href="https://github.com/ryanwien">github.com/ryanwien</a>');
     },
 

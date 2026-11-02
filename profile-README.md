@@ -34,4 +34,4 @@ backtest (Sharpe, drawdown) measured against buy-and-hold.
 **The throughline:** measurement over demos. Every repo ends its README with its
 own limitations and a "what I'd do next."
 
-📫 Reach me: https://www.linkedin.com/in/ryanwien3d/
+📫 Reach me: https://www.linkedin.com/in/ryan-wien/
