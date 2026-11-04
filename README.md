@@ -9,6 +9,10 @@ rigorous repos beat many shallow ones.
 five projects as a browsable field station, each one showing what it proves, what
 was measured, and what it cannot do.
 
+![Wien Field Station: the portfolio front end, five AI systems kept behind a measurement fence](docs/media/field-station.png)
+
+![The paddocks: one card per system with what it proves, what was measured, and what it cannot do](docs/media/paddocks.png)
+
 | Project | What it proves | Stack |
 |---|---|---|
 | [`eval-first-agent/`](./eval-first-agent) | I build agents and, more importantly, measure when they fail | Python, tool-calling, custom eval harness |
